@@ -18,7 +18,7 @@ def schrodinger_evolve(t, psi, hmt, hb, span, dt,
     flat_dims, psi = psi.flatten()
     psi = np.asarray(psi, np.complex64)
 
-    hmt = hmt.flatten()[1]
+    hmt = hmt.flattened_values
     hmt = np.asarray(hmt, np.complex64)
 
     # compute
@@ -65,10 +65,10 @@ def lindblad_evolve(t, rho, hmt, deco, gamma, hb, span, dt,
     flat_dims, rho = rho.flatten()
     rho = np.asarray(rho, dtype=np.complex64)
 
-    hmt = hmt.flatten()[1]
+    hmt = hmt.flattened_values
     hmt = np.asarray(hmt, dtype=np.complex64)
 
-    deco_list = [deco.flatten()[1] for deco in deco_list]
+    deco_list = [deco.flattened_values for deco in deco_list]
     deco_list = [np.asarray(deco, dtype=np.complex64) for deco in deco_list]
 
     deco_ct_list = [np.conj(np.transpose(deco)) for deco in deco_list]
@@ -117,7 +117,7 @@ def dynamic_schrodinger_evolve(t, psi, hmt, k_func, hb, span, dt,
     flat_dims, psi = psi.flatten()
     psi = np.asarray(psi, dtype=np.complex64)
 
-    hmt_list = [hmt.flatten()[1] for hmt in hmt_list]
+    hmt_list = [hmt.flattened_values for hmt in hmt_list]
     hmt_list = [np.asarray(hmt, dtype=np.complex64) for hmt in hmt_list]
 
     hmt_list = np.stack(hmt_list, -1)
@@ -171,10 +171,12 @@ def dynamic_lindblad_evolve(t, rho, hmt, k_func, deco, gamma_func, hb, span, dt,
     dims = rho.dims
     flat_dims, rho = rho.flatten()
     rho = np.asarray(rho, dtype=np.complex64)
-    hmt_list = [hmt.flatten()[1] for hmt in hmt_list]
+
+    hmt_list = [hmt.flattened_values for hmt in hmt_list]
     hmt_list = [np.asarray(hmt, dtype=np.complex64) for hmt in hmt_list]
     hmt_list = np.stack(hmt_list, -1)
-    deco_list = [deco.flatten()[1] for deco in deco_list]
+
+    deco_list = [deco.flattened_values for deco in deco_list]
     deco_list = [np.asarray(deco, dtype=np.complex64) for deco in deco_list]
     deco_ct_list = [np.conj(np.transpose(deco)) for deco in deco_list]
     deco_ct_deco_list = [deco_ct @ deco for deco, deco_ct in zip(deco_list, deco_ct_list)]
